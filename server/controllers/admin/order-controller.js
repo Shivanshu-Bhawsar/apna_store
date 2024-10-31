@@ -3,7 +3,6 @@ const Order = require("../../models/Order");
 exports.getAllOrdersOfAllUsers = async (req, res) => {
   try {
     const orders = await Order.find({});
-
     if (!orders.length) {
       return res.status(404).json({
         success: false,
@@ -16,10 +15,9 @@ exports.getAllOrdersOfAllUsers = async (req, res) => {
       data: orders,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in getAllOrdersOfAllUsers!",
     });
   }
 };
@@ -29,7 +27,6 @@ exports.getOrderDetailsForAdmin = async (req, res) => {
     const { id } = req.params;
 
     const order = await Order.findById(id);
-
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -42,10 +39,9 @@ exports.getOrderDetailsForAdmin = async (req, res) => {
       data: order,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in getOrderDetailsForAdmin!",
     });
   }
 };
@@ -56,7 +52,6 @@ exports.updateOrderStatus = async (req, res) => {
     const { orderStatus } = req.body;
 
     const order = await Order.findById(id);
-
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -71,10 +66,9 @@ exports.updateOrderStatus = async (req, res) => {
       message: "Order status is updated successfully!",
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in update order status!",
     });
   }
 };

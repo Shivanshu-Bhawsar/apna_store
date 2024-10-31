@@ -43,10 +43,9 @@ exports.addToCart = async (req, res) => {
       data: cart,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in add to cart!",
     });
   }
 };
@@ -100,10 +99,9 @@ exports.fetchCartItems = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in fetch cart items!",
     });
   }
 };
@@ -163,10 +161,9 @@ exports.updateCartItemQty = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in update cart items!",
     });
   }
 };
@@ -221,10 +218,9 @@ exports.deleteCartItem = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in delete cart items!",
     });
   }
 };

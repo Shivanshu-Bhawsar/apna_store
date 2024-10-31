@@ -29,10 +29,9 @@ exports.registerUser = async (req, res) => {
       message: "Registration successful",
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Error occured in register user!",
     });
   }
 };
@@ -81,10 +80,9 @@ exports.loginUser = async (req, res) => {
       },
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Error occured in login user!",
     });
   }
 };

@@ -9,7 +9,6 @@ exports.addProductReview = async (req, res) => {
     const order = await Order.findOne({
       userId,
       "cartItems.productId": productId,
-      // orderStatus: "confirmed" || "delivered",
     });
 
     if (!order) {
@@ -54,10 +53,9 @@ exports.addProductReview = async (req, res) => {
       data: newReview,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in add product review!",
     });
   }
 };
@@ -72,10 +70,9 @@ exports.getProductReviews = async (req, res) => {
       data: reviews,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Error",
+      message: "Error occured in get product reviews!",
     });
   }
 };

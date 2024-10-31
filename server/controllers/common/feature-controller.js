@@ -9,10 +9,9 @@ exports.getFeatureImages = async (req, res) => {
       data: images,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in get feature images!",
     });
   }
 };
@@ -32,10 +31,9 @@ exports.addFeatureImage = async (req, res) => {
       data: featureImages,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in add feature image!",
     });
   }
 };
@@ -54,13 +52,12 @@ exports.deleteFeatureImage = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Image deleted successfully",
+      message: "Feature image deleted successfully",
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in delete feature image!",
     });
   }
 };

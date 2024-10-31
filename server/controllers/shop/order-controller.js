@@ -23,7 +23,7 @@ exports.createOrder = async (req, res) => {
     const options = {
       amount: totalAmount * 100,
       currency: "INR",
-      receipt: `order_rcptid_${Math.random(Date.now()).toString()}`, // Optional
+      receipt: `order_rcptid_${Math.random(Date.now()).toString()}`,
       notes: {
         userId,
         orderStatus,
@@ -53,16 +53,13 @@ exports.createOrder = async (req, res) => {
     res.status(201).json({
       success: true,
       orderId: newlyCreatedOrder._id,
-      // razorpayOrderId: order.id,
-      // amount: order.amount,
       data: order,
       message: "Order created successfully",
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Unable to Create Order, please try again",
+      message: "Error occured in create order!",
     });
   }
 };
@@ -169,10 +166,9 @@ exports.getAllOrdersByUser = async (req, res) => {
       data: orders,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in getAllOrdersByUser!",
     });
   }
 };
@@ -195,10 +191,9 @@ exports.getOrderDetails = async (req, res) => {
       data: order,
     });
   } catch (e) {
-    console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured!",
+      message: "Error occured in get order details!",
     });
   }
 };
