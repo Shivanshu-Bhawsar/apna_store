@@ -47,6 +47,15 @@ function AdminProducts() {
   function onSubmit(event) {
     event.preventDefault();
 
+    // Ensure the image is uploaded before submitting the form
+    if (imageLoadingState) {
+      toast({
+        title: "Image is still uploading. Please wait.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     currentEditedId !== null
       ? dispatch(
           editProduct({
@@ -152,7 +161,7 @@ function AdminProducts() {
               setFormData={setFormData}
               buttonText={currentEditedId !== null ? "Edit" : "Add"}
               formControls={addProductFormElements}
-              isBtnDisabled={!isFormValid()}
+              isBtnDisabled={!isFormValid() || imageLoadingState} // Disable the button if the image is still loading
             />
           </div>
         </SheetContent>

@@ -1,5 +1,22 @@
 const Feature = require("../../models/Feature");
 
+exports.getFeatureImages = async (req, res) => {
+  try {
+    const images = await Feature.find({});
+
+    res.status(200).json({
+      success: true,
+      data: images,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occured!",
+    });
+  }
+};
+
 exports.addFeatureImage = async (req, res) => {
   try {
     const { image } = req.body;
@@ -23,13 +40,21 @@ exports.addFeatureImage = async (req, res) => {
   }
 };
 
-exports.getFeatureImages = async (req, res) => {
+exports.deleteFeatureImage = async (req, res) => {
   try {
-    const images = await Feature.find({});
+    const { imageId } = req.body;
 
-    res.status(200).json({
+    const image = await Feature.findByIdAndDelete(imageId);
+    if (!image) {
+      return res.json({
+        success: false,
+        message: "Image not found",
+      });
+    }
+
+    res.status(201).json({
       success: true,
-      data: images,
+      message: "Image deleted successfully",
     });
   } catch (e) {
     console.log(e);

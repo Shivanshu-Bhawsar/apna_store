@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import { Button } from "@/components/ui/button";
-import { addFeatureImage, getFeatureImages } from "@/store/common-slice";
+import {
+  addFeatureImage,
+  getFeatureImages,
+  deleteFeatureImage,
+} from "@/store/common-slice";
 
 function AdminDashboard() {
   const [imageFile, setImageFile] = useState(null);
@@ -14,7 +18,8 @@ function AdminDashboard() {
   const { featureImageList } = useSelector((state) => state.commonFeature);
 
   function handleUploadFeatureImage() {
-    if (!imageFile) {
+    // Prevent upload if image is still loading or no image is selected
+    if (imageLoadingState || !imageFile) {
       setMissingImage(true);
       return;
     }
@@ -25,6 +30,14 @@ function AdminDashboard() {
         dispatch(getFeatureImages());
         setImageFile(null);
         setUploadedImageUrl("");
+      }
+    });
+  }
+
+  function handleDelete(getCurrentImageId) {
+    dispatch(deleteFeatureImage(getCurrentImageId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(getFeatureImages());
       }
     });
   }
@@ -47,8 +60,12 @@ function AdminDashboard() {
       {missingImage && (
         <p className="text-red-500 mt-2">Please select an image to upload</p>
       )}
-      <Button onClick={handleUploadFeatureImage} className="mt-5 w-full">
-        Upload
+      <Button
+        onClick={handleUploadFeatureImage}
+        className="mt-5 w-full"
+        disabled={imageLoadingState} // Disable while image is loading
+      >
+        {imageLoadingState ? "Uploading..." : "Upload"}
       </Button>
       <div className="flex flex-col gap-4 mt-5">
         {featureImageList && featureImageList.length > 0
@@ -59,6 +76,12 @@ function AdminDashboard() {
                   className="w-full h-[300px] object-cover rounded-t-lg"
                   alt="Feature"
                 />
+                <Button
+                  onClick={() => handleDelete(featureImgItem._id)}
+                  className="absolute bottom-0 right-0 m-4"
+                >
+                  Delete
+                </Button>
               </div>
             ))
           : null}

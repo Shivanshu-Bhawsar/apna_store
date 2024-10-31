@@ -80,6 +80,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     ).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllAddresses(user?.id));
+        setCurrentSelectedAddress && setCurrentSelectedAddress(null);
         toast({
           title: "Address deleted successfully",
         });
