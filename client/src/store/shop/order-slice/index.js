@@ -59,13 +59,9 @@ export const createNewOrder = createAsyncThunk(
       currency: orderResponse.data.data.currency,
       amount: orderResponse.data.data.amount,
       order_id: orderResponse.data.data.id,
-      name: "My_Store_Lala",
+      name: "Apna Store",
       description: "Thank you for purchasing the product.",
       // image: rzplogo,
-      // prefill: {
-      //   name: userDetails?.firstName + " " + userDetails?.lastName,
-      //   email: userDetails?.email,
-      // },
       handler: async function (response) {
         verifypayment(response);
       },
