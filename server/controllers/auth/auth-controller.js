@@ -4,9 +4,9 @@ const User = require("../../models/User");
 
 //register
 exports.registerUser = async (req, res) => {
-  const { userName, email, password } = req.body;
-
   try {
+    const { userName, email, password } = req.body;
+
     const checkUser = await User.findOne({ email });
     if (checkUser)
       return res.json({
@@ -15,6 +15,7 @@ exports.registerUser = async (req, res) => {
       });
 
     const hashPassword = await bcrypt.hash(password, 12);
+
     const newUser = new User({
       userName,
       email,
@@ -22,6 +23,7 @@ exports.registerUser = async (req, res) => {
     });
 
     await newUser.save();
+
     res.status(200).json({
       success: true,
       message: "Registration successful",
@@ -37,9 +39,9 @@ exports.registerUser = async (req, res) => {
 
 //login
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
+
     const checkUser = await User.findOne({ email });
     if (!checkUser)
       return res.json({
@@ -97,14 +99,15 @@ exports.logoutUser = (req, res) => {
 
 //auth middleware
 exports.authMiddleware = async (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token)
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorised user!",
-    });
-
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorised user!",
+      });
+    }
+
     const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
     req.user = decoded;
     next();

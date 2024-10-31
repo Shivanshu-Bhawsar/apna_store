@@ -53,8 +53,8 @@ exports.createOrder = async (req, res) => {
     res.status(201).json({
       success: true,
       orderId: newlyCreatedOrder._id,
-      razorpayOrderId: order.id,
-      amount: order.amount,
+      // razorpayOrderId: order.id,
+      // amount: order.amount,
       data: order,
       message: "Order created successfully",
     });
@@ -140,7 +140,7 @@ exports.capturePayment = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: order,
+      // data: order,
       message: "Payment captured successfully",
     });
   } catch (e) {

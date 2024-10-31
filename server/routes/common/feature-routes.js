@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.post("/add", addFeatureImage);
 router.get("/get", getFeatureImages);
+router.post("/add", addFeatureImage);
 
 module.exports = router;

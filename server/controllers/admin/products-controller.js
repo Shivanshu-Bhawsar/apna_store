@@ -52,6 +52,14 @@ exports.addProduct = async (req, res) => {
       averageReview,
     } = req.body;
 
+    // console.log("img: ", image);
+    // if (!img) {
+    //   res.status(200).json({
+    //     success: false,
+    //     message: "Product image not found, please upload image",
+    //   });
+    // }
+
     const newlyCreatedProduct = new Product({
       image,
       title,

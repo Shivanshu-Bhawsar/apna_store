@@ -24,10 +24,10 @@ import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 
 function App() {
+  const dispatch = useDispatch();
   const { user, isAuthenticated, isLoading } = useSelector(
     (state) => state.auth
   );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());

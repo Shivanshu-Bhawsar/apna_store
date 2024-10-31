@@ -4,8 +4,7 @@ const ProductReview = require("../../models/Review");
 
 exports.addProductReview = async (req, res) => {
   try {
-    const { productId, userId, userName, reviewMessage, reviewValue } =
-      req.body;
+    const { productId, userId, userName, reviewMessage, reviewValue } = req.body;
 
     const order = await Order.findOne({
       userId,
@@ -14,7 +13,7 @@ exports.addProductReview = async (req, res) => {
     });
 
     if (!order) {
-      return res.status(403).json({
+      return res.status(200).json({
         success: false,
         message: "You need to purchase product to review it.",
       });
@@ -26,7 +25,7 @@ exports.addProductReview = async (req, res) => {
     });
 
     if (checkExistinfReview) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "You already reviewed this product!",
       });

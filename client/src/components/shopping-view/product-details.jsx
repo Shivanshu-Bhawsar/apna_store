@@ -86,6 +86,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         toast({
           title: "Review added successfully!",
         });
+      } else {
+        toast({
+          title: `${data?.payload?.message}`,
+        });
       }
     });
   }
@@ -125,11 +129,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 productDetails?.salePrice > 0 ? "line-through" : ""
               }`}
             >
-              ${productDetails?.price}
+              Rs. {productDetails?.price}
             </p>
             {productDetails?.salePrice > 0 ? (
               <p className="text-2xl font-bold text-muted-foreground">
-                ${productDetails?.salePrice}
+                Rs. {productDetails?.salePrice}
               </p>
             ) : null}
           </div>
@@ -166,7 +170,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             <div className="grid gap-6">
               {reviews && reviews.length > 0 ? (
                 reviews.map((reviewItem) => (
-                  <div className="flex gap-4">
+                  <div key={reviewItem._id} className="flex gap-4">
                     <Avatar className="w-10 h-10 border">
                       <AvatarFallback>
                         {reviewItem?.userName[0].toUpperCase()}

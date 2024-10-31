@@ -1,3 +1,4 @@
+import { useState, useEffect, Fragment } from "react";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import AdminProductTile from "@/components/admin-view/product-tile";
 import CommonForm from "@/components/common/form";
@@ -16,7 +17,6 @@ import {
   editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
-import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const initialFormData = {
@@ -73,7 +73,7 @@ function AdminProducts() {
             setImageFile(null);
             setFormData(initialFormData);
             toast({
-              title: "Product add successfully",
+              title: "Product added successfully",
             });
           }
         });
@@ -88,10 +88,12 @@ function AdminProducts() {
   }
 
   function isFormValid() {
-    return Object.keys(formData)
-      .filter((currentKey) => currentKey !== "averageReview")
-      .map((key) => formData[key] !== "")
-      .every((item) => item);
+    return (
+      (imageFile !== null || currentEditedId !== null) &&
+      Object.keys(formData)
+        .filter((key) => key !== "averageReview")
+        .every((key) => formData[key] !== "")
+    );
   }
 
   useEffect(() => {
@@ -109,6 +111,7 @@ function AdminProducts() {
         {productList && productList.length > 0
           ? productList.map((productItem) => (
               <AdminProductTile
+                key={productItem._id}
                 setFormData={setFormData}
                 setOpenCreateProductsDialog={setOpenCreateProductsDialog}
                 setCurrentEditedId={setCurrentEditedId}
@@ -124,6 +127,7 @@ function AdminProducts() {
           setOpenCreateProductsDialog(false);
           setCurrentEditedId(null);
           setFormData(initialFormData);
+          setImageFile(null);
         }}
       >
         <SheetContent side="right" className="overflow-auto">
