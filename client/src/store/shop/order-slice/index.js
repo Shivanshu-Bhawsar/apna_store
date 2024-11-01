@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
-import { BACKEND_URL } from "@/store/store";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const initialState = {
   isLoading: false,

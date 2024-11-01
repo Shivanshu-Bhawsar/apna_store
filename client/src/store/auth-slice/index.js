@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BACKEND_URL } from "../store";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const initialState = {
   isAuthenticated: false,
@@ -8,8 +9,9 @@ const initialState = {
   user: null,
 };
 
+// Action Types should be unique and descriptive
 export const registerUser = createAsyncThunk(
-  "/auth/register",
+  "auth/register",
   async (formData) => {
     const response = await axios.post(
       `${BACKEND_URL}/api/auth/register`,
@@ -23,7 +25,7 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
+export const loginUser = createAsyncThunk("auth/login", async (formData) => {
   const response = await axios.post(
     `${BACKEND_URL}/api/auth/login`,
     formData,
@@ -35,7 +37,7 @@ export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
   return response.data;
 });
 
-export const logoutUser = createAsyncThunk("/auth/logout", async () => {
+export const logoutUser = createAsyncThunk("auth/logout", async () => {
   const response = await axios.post(
     `${BACKEND_URL}/api/auth/logout`,
     {},
@@ -47,18 +49,17 @@ export const logoutUser = createAsyncThunk("/auth/logout", async () => {
   return response.data;
 });
 
-export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
+export const checkAuth = createAsyncThunk("auth/checkauth", async () => {
   const response = await axios.get(
     `${BACKEND_URL}/api/auth/check-auth`,
     {
       withCredentials: true,
       headers: {
-        "Cache-Control":
-          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
       },
     }
   );
-  
+
   return response.data;
 });
 
@@ -66,7 +67,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {},
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = !!action.payload; // Update isAuthenticated based on user presence
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -75,10 +79,10 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = null;
+        state.user = null; // You might want to handle this differently based on your response structure
         state.isAuthenticated = false;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
@@ -91,7 +95,7 @@ const authSlice = createSlice({
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
@@ -104,12 +108,12 @@ const authSlice = createSlice({
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
       })
-      .addCase(checkAuth.rejected, (state, action) => {
+      .addCase(checkAuth.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;

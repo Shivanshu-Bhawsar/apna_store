@@ -10,8 +10,6 @@ import shopSearchSlice from "./shop/search-slice";
 import shopReviewSlice from "./shop/review-slice";
 import commonFeatureSlice from "./common-slice";
 
-export const BACKEND_URL = "https://apna-store-five.vercel.app";
-
 const store = configureStore({
   reducer: {
     auth: authReducer,
