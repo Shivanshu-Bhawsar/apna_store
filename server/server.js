@@ -64,3 +64,11 @@ app.use("/api/common/feature", commonFeatureRouter);
 
 // start server
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+
+// default route
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "Your server is up and running....",
+  });
+});
