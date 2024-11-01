@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
+import { BACKEND_URL } from "@/store/store";
 
 const initialState = {
   isLoading: false,
@@ -44,7 +45,7 @@ export const createNewOrder = createAsyncThunk(
     }
 
     const orderResponse = await axios.post(
-      "http://localhost:5000/api/shop/order/create",
+      `${BACKEND_URL}/api/shop/order/create`,
       orderData
     );
 
@@ -85,7 +86,7 @@ async function verifypayment(response) {
   const toastId = toast.loading("Please wait while we verify your payment");
   try {
     const res = await axios.post(
-      "http://localhost:5000/api/shop/order/verifyPayment",
+      `${BACKEND_URL}/api/shop/order/verifyPayment`,
       {
         razorpay_payment_id: response.razorpay_payment_id,
         razorpay_order_id: response.razorpay_order_id,
@@ -111,7 +112,7 @@ export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async (orderId) => {
     const res = await axios.post(
-      "http://localhost:5000/api/shop/order/capture",
+      `${BACKEND_URL}/api/shop/order/capture`,
       {
         orderId,
       }
@@ -131,7 +132,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/list/${userId}`
+      `${BACKEND_URL}/api/shop/order/list/${userId}`
     );
 
     return response.data;
@@ -142,7 +143,7 @@ export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/details/${id}`
+      `${BACKEND_URL}/api/shop/order/details/${id}`
     );
 
     return response.data;
