@@ -29,8 +29,10 @@ function App() {
     (state) => state.auth
   );
 
-  useEffect(() => {
-    dispatch(checkAuth());
+  useEffect(() => {    
+    dispatch(checkAuth()).then((data) => {
+      console.log("ans: ", data)
+    });
   }, [dispatch]);
 
   if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;

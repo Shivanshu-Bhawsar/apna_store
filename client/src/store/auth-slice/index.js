@@ -9,7 +9,6 @@ const initialState = {
   user: null,
 };
 
-// Action Types should be unique and descriptive
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (formData) => {
@@ -20,20 +19,14 @@ export const registerUser = createAsyncThunk(
         withCredentials: true,
       }
     );
-
     return response.data;
   }
 );
 
 export const loginUser = createAsyncThunk("auth/login", async (formData) => {
-  const response = await axios.post(
-    `${BACKEND_URL}/api/auth/login`,
-    formData,
-    {
-      withCredentials: true,
-    }
-  );
-
+  const response = await axios.post(`${BACKEND_URL}/api/auth/login`, formData, {
+    withCredentials: true,
+  });
   return response.data;
 });
 
@@ -45,21 +38,18 @@ export const logoutUser = createAsyncThunk("auth/logout", async () => {
       withCredentials: true,
     }
   );
-
+  console.log("out: ", response.data);
   return response.data;
 });
 
 export const checkAuth = createAsyncThunk("auth/checkauth", async () => {
-  const response = await axios.get(
-    `${BACKEND_URL}/api/auth/check-auth`,
-    {
-      withCredentials: true,
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-      },
-    }
-  );
-
+  const response = await axios.get(`${BACKEND_URL}/api/auth/check-auth`, {
+    withCredentials: true,
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
+  console.log("check: ", response);
   return response.data;
 });
 
@@ -67,10 +57,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-      state.isAuthenticated = !!action.payload; // Update isAuthenticated based on user presence
-    },
+    setUser: (state, action) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -79,7 +66,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = null; // You might want to handle this differently based on your response structure
+        state.user = null;
         state.isAuthenticated = false;
       })
       .addCase(registerUser.rejected, (state) => {
@@ -117,6 +104,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        sessionStorage.clear();
       });
   },
 });

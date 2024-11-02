@@ -65,11 +65,18 @@ exports.loginUser = async (req, res) => {
         email: checkUser.email,
         userName: checkUser.userName,
       },
-      "CLIENT_SECRET_KEY",
+      process.env.JWT_SECRET,
       { expiresIn: "60m" }
-    );
+    );    
 
-    res.cookie("token", token, { httpOnly: true, secure: false }).json({
+    const isProduction = process.env.NODE_ENV === "production";
+    console.log("por: ", isProduction)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction, // Use secure cookies in production
+      sameSite: isProduction ? "none" : "lax", // Required for cross-origin in HTTPS
+    })
+    .json({
       success: true,
       message: "Logged in successfully",
       user: {
@@ -98,7 +105,7 @@ exports.logoutUser = (req, res) => {
 //auth middleware
 exports.authMiddleware = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies.token;    
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -106,7 +113,7 @@ exports.authMiddleware = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {

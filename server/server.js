@@ -24,9 +24,15 @@ dbConnect();
 // middleware setup
 app.use(cookieParser());
 app.use(express.json());
+
+const isProduction = process.env.NODE_ENV === "production";
+console.log("is: ", isProduction);
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: isProduction
+      ? "https://your-production-frontend-url.com" // Replace with your actual frontend production URL
+      : "http://localhost:5173", // Development URL
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -35,7 +41,7 @@ app.use(
       "Expires",
       "Pragma",
     ],
-    credentials: true,
+    credentials: true, // Allow cookies to be sent in CORS requests
   })
 );
 
