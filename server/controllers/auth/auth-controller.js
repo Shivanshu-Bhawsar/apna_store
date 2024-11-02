@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 //register
 exports.registerUser = async (req, res) => {
   try {
@@ -69,8 +71,6 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "60m" }
     );    
 
-    const isProduction = process.env.NODE_ENV === "production";
-    console.log("por: ", isProduction)
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProduction, // Use secure cookies in production
@@ -94,9 +94,12 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-//logout
 exports.logoutUser = (req, res) => {
-  res.clearCookie("token").json({
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+  }).json({
     success: true,
     message: "Logged out successfully!",
   });
