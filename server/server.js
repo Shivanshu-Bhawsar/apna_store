@@ -31,7 +31,7 @@ console.log("is: ", isProduction);
 app.use(
   cors({
     origin: isProduction
-      ? "https://your-production-frontend-url.com" // Replace with your actual frontend production URL
+      ? "http://localhost:5173" // Replace with your actual frontend production URL
       : "http://localhost:5173", // Development URL
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
