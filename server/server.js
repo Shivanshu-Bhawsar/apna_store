@@ -29,9 +29,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
   cors({
-    origin: isProduction
-      ? "https://apna-store-client.netlify.app" // Replace with your actual frontend production URL
-      : "http://localhost:5173", // Development URL
+    origin: "https://apna-store-client.netlify.app",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
