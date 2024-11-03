@@ -29,7 +29,9 @@ const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
   cors({
-    origin: "https://apna-store-client.netlify.app",
+    origin: isProduction
+      ? "https://apna-store-client.netlify.app"
+      : "http://localhost:5173",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
