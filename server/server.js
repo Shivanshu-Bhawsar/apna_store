@@ -26,12 +26,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 const isProduction = process.env.NODE_ENV === "production";
-console.log("is: ", isProduction);
 
 app.use(
   cors({
     origin: isProduction
-      ? "http://localhost:5173" // Replace with your actual frontend production URL
+      ? "https://apna-store-client.netlify.app" // Replace with your actual frontend production URL
       : "http://localhost:5173", // Development URL
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
