@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 
-function MenuItems() {
+function MenuItems({ closeSheet }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,6 +47,8 @@ function MenuItems() {
           new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
         )
       : navigate(getCurrentMenuItem.path);
+
+    closeSheet?.();
   }
 
   return (
@@ -64,7 +66,7 @@ function MenuItems() {
   );
 }
 
-function HeaderRightContent() {
+function HeaderRightContent({ closeSheet }) {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
@@ -115,7 +117,12 @@ function HeaderRightContent() {
         <DropdownMenuContent side="right" className="w-56">
           <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/shop/account");
+              closeSheet?.();
+            }}
+          >
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
@@ -132,6 +139,7 @@ function HeaderRightContent() {
 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const [openSheet, setOpenSheet] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -140,18 +148,19 @@ function ShoppingHeader() {
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
         </Link>
-        <Sheet>
+        <Sheet open={openSheet} onOpenChange={setOpenSheet}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
-            <HeaderRightContent />
+          <SheetContent side="left" className="w-full max-w-xs flex flex-col">
+            <MenuItems closeSheet={() => setOpenSheet(false)} />
+            <HeaderRightContent closeSheet={() => setOpenSheet(false)} />
           </SheetContent>
         </Sheet>
+
         <div className="hidden lg:block">
           <MenuItems />
         </div>

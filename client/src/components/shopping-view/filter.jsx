@@ -10,7 +10,7 @@ function ProductFilter({ filters, handleFilter }) {
       <div className="p-4 border-b">
         <h2 className="text-lg font-extrabold">Filters</h2>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="p-4 flex flex-row gap-20 sm:space-y-4 sm:flex-col sm:gap-0">
         {Object.keys(filterOptions).map((keyItem, index) => (
           <Fragment key={index}>
             <div>
@@ -35,7 +35,7 @@ function ProductFilter({ filters, handleFilter }) {
                 ))}
               </div>
             </div>
-            <Separator />
+            <div className="hidden sm:block"><Separator /></div>
           </Fragment>
         ))}
       </div>

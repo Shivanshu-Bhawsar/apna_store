@@ -105,14 +105,14 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
-        <div className="relative overflow-hidden rounded-lg">
+      <DialogContent className="overflow-y-scroll h-screen grid sm:grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[65vw]">
+        <div className="sm:absolute top-20 left-7">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
             width={600}
             height={600}
-            className="aspect-square w-full object-cover"
+            className="aspect-square w-[90%] sm:w-full object-cover rounded-lg"
           />
         </div>
         <div className="">
@@ -164,7 +164,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             )}
           </div>
           <Separator />
-          <div className="max-h-[300px] overflow-auto">
+          <div className="mt-4 overflow-auto">
             <h2 className="text-xl font-bold mb-4">Reviews</h2>
             <div className="grid gap-6">
               {reviews && reviews.length > 0 ? (
